@@ -72,7 +72,7 @@
     <div class= "container-fluid">
         <div class="row">
             <?php foreach($productos as $producto):?>
-                <div class="card text-white bg-dark m-3" style="max-width: 22rem;">
+                <div class="card text-white bg-dark m-3" style="max-width: 25rem;">
                     <div class="card-header"><strong>SERIE: </strong><?php echo($producto["serieProducto"])?></div>
                     <img src="img/productos/img_<?php echo($producto["idProducto"])?>.jpg" class="card-img-top" alt="imagen<?php echo($producto["idProducto"])?>">
                     <div class="card-body">
@@ -80,7 +80,7 @@
                         <p class="card-text"><strong>DESCRIPCIÓN: </strong><?php echo($producto["descripcionProducto"])?></p>
                         <p class="card-text"><strong>TIPO DE PRODUCTO: </strong><?php echo($producto["tipoProducto"])?></p>
                         <div class="row">
-                            <p class="card-text col-6"><strong>DISPONIBLES: </strong><?php echo($producto["cantidadProducto"])?></p>
+                            <p class="card-text col-6"><strong>DISPONIBLES: </strong><?php if($producto["cantidadProducto"] > 0){echo("SI");}else{echo("NO");}?></p>
                             <p class="card-text col-6 "><strong>PRECIO: </strong><?php echo($producto["valorProducto"])?></p>
                         </div>
                     </div>

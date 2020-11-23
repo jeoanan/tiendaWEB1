@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,16 +13,12 @@
 
         include("BaseDatos.php");
 
-        //1. Crear un objeto de la clase BaseDatos
         $transaccion= new BaseDatos();
 
-        //2. Crear la consulta SQL para buscar datos
         $consultaSQL="SELECT * FROM productos WHERE 1";
 
-        //3. Utilizar el metodo para consultarDatos()
         $productos=$transaccion->consultarDatos($consultaSQL);
 
-        print_r($productos);
 
     ?>
     
@@ -74,11 +70,11 @@
     <div class= "container-fluid">
         <div class="row">
             <div class="col-12 mt-3">
-                <button class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"><strong>AGREGAR +</strong></button>
+                <a href="agregarProductos.php" class="btn btn-warning"><strong>AGREGAR +</strong></a>
             </div>
             <?php foreach($productos as $producto):?>
-                <form action="" class="mt-3 ml-3">
-                    <div class="card text-white bg-dark mt-3" style="max-width: 25rem;">
+                <form action="modificadorDatos.php?idProducto=<?php echo($producto["idProducto"])?>" method="POST" class="mt-3 ml-3">
+                    <div class="card text-white bg-dark mt-3 mb-3" style="max-width: 25rem;">
                         <div class="card-header"><strong>SERIE: </strong><?php echo($producto["serieProducto"])?></div>
                         <img src="img/productos/img_<?php echo($producto["idProducto"])?>.jpg" class="card-img-top" alt="imagen<?php echo($producto["idProducto"])?>">
                         <div class="card-body">
@@ -89,69 +85,63 @@
                                 <p class="card-text col-6"><strong>DISPONIBLES: </strong><?php echo($producto["cantidadProducto"])?></p>
                                 <p class="card-text col-6 "><strong>PRECIO: </strong><?php echo($producto["valorProducto"])?></p>
                             </div>
-                            <a href="#" class="btn btn-warning">Editar</a>
-                            <a href="#" class="btn btn-danger">Eliminar</a>
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal<?php echo($producto["idProducto"])?>">    
+                                <strong>EDITAR</strong>
+                            </button>
+                            <button class="btn btn-danger" type="submit" name="botonEliminar"><strong>ELIMINAR</strong></button>
+                        </div>
+                    </div>
+                
+                    <div class="modal fade" id="editModal<?php echo($producto["idProducto"])?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-md">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">AGREGAR PRODUCTO</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="nombreProducto">Nombre del producto</label>
+                                        <input name="nombreProducto" id="nombreProducto" class="form-control" type="text" placeholder="Nombre del producto">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tipoProducto">Tipo de producto</label>
+                                        <input name="tipoProducto" id="tipoProducto" class="form-control" type="text" placeholder="Tipo del producto">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="serieProducto">Serie</label>
+                                        <input name="serieProducto" id="serieProducto" class="form-control" type="text" placeholder="Serie">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="descripcionProducto">Descripción</label>
+                                        <textarea  name="descripcionProducto" id="descripcionProducto" class="form-control" type="text" placeholder="Serie">
+                                        </textarea>
+                                    </div>
+                        
+                                    <div class="row">
+                                        <div class="form-group col-4">
+                                            <label for="cantidadProducto">Cantidad</label>
+                                            <input name="cantidadProducto" id="cantidadProducto" class="form-control" type="number" placeholder="Cantidad">
+                                        </div>
+                                        <div class="form-group col-8">
+                                            <label for="valorProducto">Valor</label>
+                                            <input name="valorProducto" id="valorProducto" class="form-control" type="number" placeholder="Valor">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" name="botonEditar" class="btn btn-danger"><strong>EDITAR PRODUCTO</strong></button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>CANCELAR</strong></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
             <?php endforeach ?>
         </div>
-    </div>
-    
-    
-    <form action="modificadorDatos.php" method="POST">
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-md">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">AGREGAR PRODUCTO</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="nombreProducto">Nombre del producto</label>
-                            <input name="nombreProducto" id="nombreProducto" class="form-control" type="text" placeholder="Nombre del producto">
-                        </div>
-                        <div class="form-group">
-                            <label for="tipoProducto">Tipo de producto</label>
-                            <input name="tipoProducto" id="tipoProducto" class="form-control" type="text" placeholder="Tipo del producto">
-                        </div>
-                        <div class="form-group">
-                            <label for="serieProducto">Serie</label>
-                            <input name="serieProducto" id="serieProducto" class="form-control" type="text" placeholder="Serie">
-                        </div>
-                        <div class="form-group">
-                            <label for="descripcionProducto">Descripción</label>
-                            <textarea  name="descripcionProducto" id="descripcionProducto" class="form-control" type="text" placeholder="Serie">
-                            </textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="rutaImagen">Imagen</label>
-                            <input type="file" class="form-control-file btn-file mt-2" id="chargeImage">
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-4">
-                                <label for="cantidadProducto">Cantidad</label>
-                                <input name="cantidadProducto" id="cantidadProducto" class="form-control" type="number" placeholder="Cantidad">
-                            </div>
-                            <div class="form-group col-8">
-                                <label for="valorProducto">Valor</label>
-                                <input name="valorProducto" id="valorProducto" class="form-control" type="number" placeholder="Valor">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" name="botonRegistrar" class="btn btn-danger">Agregar Producto</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-
- 
+    </div> 
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
